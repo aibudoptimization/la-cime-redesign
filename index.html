@@ -7,236 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --forest: #1a2318;
-      --pine: #2d3d2a;
-      --sage: #7a9172;
-      --mist: #c8d4c0;
-      --cream: #f5f0e8;
-      --warm-white: #faf8f4;
-      --gold: #c9a96e;
-      --gold-light: #e8d5a3;
-      --stone: #8a8278;
-      --charcoal: #2c2a27;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Jost', sans-serif; background: var(--warm-white); color: var(--charcoal); overflow-x: hidden; }
-
-    /* TOPBAR */
-    .topbar { background: var(--forest); color: var(--mist); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; padding: 8px 48px; }
-    .topbar a { color: var(--mist); text-decoration: none; transition: color 0.2s; }
-    .topbar a:hover { color: var(--gold); }
-    .topbar-social { display: flex; gap: 20px; }
-
-    /* NAV */
-    nav { position: fixed; top: 33px; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 20px 48px; transition: all 0.4s ease; }
-    nav.scrolled { top: 0; background: rgba(26,35,24,0.96); backdrop-filter: blur(12px); padding: 14px 48px; box-shadow: 0 2px 30px rgba(0,0,0,0.25); }
-    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 300; letter-spacing: 0.3em; color: white; text-decoration: none; text-transform: uppercase; }
-    .nav-logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
-    .nav-links a { color: rgba(255,255,255,0.82); text-decoration: none; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 400; transition: color 0.2s; position: relative; }
-    .nav-links a::after { content: ''; position: absolute; bottom: -3px; left: 0; right: 0; height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s ease; }
-    .nav-links a:hover { color: white; }
-    .nav-links a:hover::after { transform: scaleX(1); }
-    .nav-cta { background: var(--gold) !important; color: var(--forest) !important; padding: 10px 24px; font-weight: 500 !important; }
-    .nav-cta::after { display: none !important; }
-    .nav-cta:hover { background: var(--gold-light) !important; }
-
-    /* HERO */
-    .hero { position: relative; height: 100vh; min-height: 700px; display: flex; align-items: flex-end; overflow: hidden; }
-    .hero-bg { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(18,22,16,0.2) 0%, rgba(18,22,16,0.0) 30%, rgba(18,22,16,0.65) 80%, rgba(18,22,16,0.92) 100%), url('https://la-cime.ca/wp-content/uploads/2024/07/DSC03812.jpg') center/cover no-repeat; transform: scale(1.05); animation: slowZoom 18s ease-out forwards; }
-    @keyframes slowZoom { from { transform: scale(1.05); } to { transform: scale(1.0); } }
-    .hero-content { position: relative; z-index: 2; padding: 0 48px 80px; max-width: 900px; opacity: 0; animation: fadeUp 1.2s 0.4s ease forwards; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .hero-eyebrow { font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; }
-    .hero-eyebrow::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
-    .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 7vw, 7rem); font-weight: 300; line-height: 0.92; color: white; margin-bottom: 28px; letter-spacing: 0.04em; }
-    .hero-title em { font-style: italic; color: var(--mist); }
-    .hero-sub { font-size: 0.88rem; color: rgba(255,255,255,0.72); letter-spacing: 0.06em; margin-bottom: 40px; max-width: 480px; line-height: 1.7; }
-    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-
-    /* BUTTONS */
-    .btn-primary { background: var(--gold); color: var(--forest); border: none; padding: 14px 36px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.25s; font-weight: 500; }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,169,110,0.35); }
-    .btn-outline { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.45); padding: 14px 36px; font-family: 'Jost', sans-serif; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; transition: all 0.25s; font-weight: 400; }
-    .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.08); }
-
-    /* PROMO */
-    .promo-banner { background: var(--pine); color: var(--gold-light); text-align: center; padding: 14px 24px; font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; }
-    .promo-banner a { color: var(--gold); text-decoration: underline; margin-left: 12px; }
-
-    /* SECTIONS */
-    section { padding: 100px 48px; }
-    .section-label { font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--sage); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
-    .section-label::before { content: ''; display: block; width: 30px; height: 1px; background: var(--sage); }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 300; line-height: 1.1; color: var(--forest); margin-bottom: 20px; }
-    .section-title em { font-style: italic; color: var(--sage); }
-    .section-body { font-size: 0.92rem; line-height: 1.9; color: var(--stone); max-width: 560px; }
-
-    /* INTRO */
-    .intro { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; background: var(--warm-white); }
-    .intro-visual { position: relative; }
-    .intro-img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
-    .intro-badge { position: absolute; bottom: -24px; right: -24px; background: var(--gold); color: var(--forest); width: 120px; height: 120px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500; line-height: 1.4; }
-    .intro-badge strong { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 600; display: block; letter-spacing: 0; }
-    .stats-row { display: flex; gap: 40px; margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--mist); }
-    .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--forest); line-height: 1; margin-bottom: 6px; }
-    .stat-label { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); }
-
-    /* CABINS */
-    .cabins { background: var(--forest); padding: 100px 48px; }
-    .cabins .section-title { color: white; }
-    .cabins .section-label { color: var(--gold); }
-    .cabins .section-label::before { background: var(--gold); }
-    .cabins-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; }
-    .cabins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-    .cabin-card { position: relative; overflow: hidden; cursor: pointer; }
-    .cabin-card img { width: 100%; height: 520px; object-fit: cover; display: block; transition: transform 0.7s ease; }
-    .cabin-card:hover img { transform: scale(1.04); }
-    .cabin-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(18,22,16,0.9) 0%, transparent 55%); display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; }
-    .cabin-tag { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
-    .cabin-name { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: white; margin-bottom: 10px; }
-    .cabin-desc { font-size: 0.82rem; color: rgba(255,255,255,0.65); line-height: 1.6; margin-bottom: 20px; }
-    .cabin-features { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
-    .cabin-feat { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mist); border: 1px solid rgba(200,212,192,0.3); padding: 5px 12px; }
-    .cabin-link { color: var(--gold); text-decoration: none; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 8px; transition: gap 0.2s; }
-    .cabin-link:hover { gap: 14px; }
-
-    /* THERMAL */
-    .thermal { background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 680px; padding: 0; }
-    .thermal-visual { position: relative; overflow: hidden; }
-    .thermal-visual img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 500px; }
-    .thermal-content { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
-    .thermal-items { margin-top: 40px; display: flex; flex-direction: column; gap: 24px; }
-    .thermal-item { display: flex; gap: 20px; align-items: flex-start; padding-bottom: 24px; border-bottom: 1px solid var(--mist); }
-    .thermal-item:last-child { border-bottom: none; }
-    .thermal-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 2px; }
-    .thermal-item-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; color: var(--forest); margin-bottom: 4px; }
-    .thermal-item-desc { font-size: 0.82rem; color: var(--stone); line-height: 1.7; }
-
-    /* INCLUSIONS */
-    .inclusions { background: white; text-align: center; }
-    .inclusions .section-label { justify-content: center; }
-    .inclusions .section-label::before { display: none; }
-    .inclusions .section-title { margin: 0 auto 16px; }
-    .inclusions .section-body { margin: 0 auto 60px; text-align: center; }
-    .inclusions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; text-align: left; }
-    .incl-card { padding: 40px 36px; border: 1px solid var(--mist); transition: all 0.3s; background: var(--warm-white); }
-    .incl-card:hover { border-color: var(--sage); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(122,145,114,0.12); background: white; }
-    .incl-icon { font-size: 2rem; margin-bottom: 20px; display: block; }
-    .incl-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--forest); margin-bottom: 10px; }
-    .incl-desc { font-size: 0.82rem; color: var(--stone); line-height: 1.75; }
-
-    /* ADDONS */
-    .addons { background: white; }
-    .addons-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; }
-    .addons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-    .addon-card { background: var(--cream); padding: 44px 36px; transition: all 0.3s; position: relative; overflow: hidden; }
-    .addon-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--gold); transform: scaleX(0); transition: transform 0.3s; }
-    .addon-card:hover { background: var(--warm-white); }
-    .addon-card:hover::before { transform: scaleX(1); }
-    .addon-icon { font-size: 2.2rem; margin-bottom: 24px; display: block; }
-    .addon-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--forest); margin-bottom: 12px; }
-    .addon-desc { font-size: 0.82rem; color: var(--stone); line-height: 1.75; margin-bottom: 24px; }
-    .addon-price { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); }
-
-    /* REGION */
-    .region { background: var(--pine); color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 600px; padding: 0; }
-    .region-content { padding: 80px 64px; display: flex; flex-direction: column; justify-content: center; }
-    .region .section-label { color: var(--gold); }
-    .region .section-label::before { background: var(--gold); }
-    .region .section-title { color: white; }
-    .region .section-body { color: rgba(255,255,255,0.65); }
-    .region-points { margin-top: 40px; display: flex; flex-direction: column; gap: 16px; }
-    .region-point { display: flex; align-items: center; gap: 16px; font-size: 0.85rem; color: rgba(255,255,255,0.8); }
-    .region-point::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
-    .region-img { overflow: hidden; }
-    .region-img img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 500px; opacity: 0.7; }
-
-    /* GALLERY */
-    .gallery { background: var(--warm-white); }
-    .gallery-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
-    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: 260px 260px; gap: 4px; }
-    .gallery-item { overflow: hidden; }
-    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-    .gallery-item:nth-child(4) { grid-column: span 2; }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s ease; }
-    .gallery-item:hover img { transform: scale(1.06); }
-
-    /* PRESS */
-    .press { background: var(--cream); text-align: center; padding: 80px 48px; }
-    .press-label { font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--stone); margin-bottom: 40px; }
-    .press-logos { display: flex; align-items: center; justify-content: center; gap: 56px; flex-wrap: wrap; }
-    .press-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--stone); letter-spacing: 0.1em; opacity: 0.55; transition: opacity 0.2s; font-style: italic; text-decoration: none; display: block; }
-    .press-logo:hover { opacity: 1; }
-
-    /* TESTIMONIALS */
-    .testimonials { background: var(--forest); padding: 100px 48px; }
-    .testimonials .section-title { color: white; }
-    .testimonials .section-label { color: var(--gold); justify-content: center; }
-    .testimonials .section-label::before { display: none; }
-    .testimonials-head { text-align: center; margin-bottom: 56px; }
-    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-    .review-card { background: rgba(255,255,255,0.04); padding: 40px 36px; border: 1px solid rgba(255,255,255,0.06); }
-    .review-stars { color: var(--gold); font-size: 0.85rem; letter-spacing: 3px; margin-bottom: 20px; }
-    .review-text { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 300; font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.7; margin-bottom: 28px; }
-    .review-author { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
-    .review-location { font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; margin-top: 4px; }
-
-    /* NEWSLETTER */
-    .newsletter { background: var(--charcoal); padding: 80px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .newsletter-title { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: white; line-height: 1.15; margin-bottom: 16px; }
-    .newsletter-sub { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
-    .newsletter-form { display: flex; flex-direction: column; gap: 14px; }
-    .nl-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    .nl-input { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: white; padding: 14px 18px; font-family: 'Jost', sans-serif; font-size: 0.85rem; outline: none; transition: border-color 0.2s; width: 100%; }
-    .nl-input::placeholder { color: rgba(255,255,255,0.3); }
-    .nl-input:focus { border-color: var(--gold); }
-
-    /* FOOTER */
-    footer { background: var(--forest); color: rgba(255,255,255,0.55); padding: 60px 48px 40px; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 56px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 32px; }
-    .footer-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: white; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 16px; }
-    .footer-brand span { color: var(--gold); }
-    .footer-tagline { font-size: 0.78rem; line-height: 1.8; margin-bottom: 28px; }
-    .footer-social { display: flex; gap: 14px; }
-    .footer-social a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.12); padding: 8px 14px; transition: all 0.2s; }
-    .footer-social a:hover { color: white; border-color: rgba(255,255,255,0.35); }
-    .footer-col h4 { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: white; margin-bottom: 20px; font-weight: 400; }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
-    .footer-col a:hover { color: var(--gold); }
-    .footer-bottom { display: flex; justify-content: space-between; font-size: 0.72rem; letter-spacing: 0.08em; }
-
-    /* REVEAL */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 1024px) {
-      .intro, .newsletter { grid-template-columns: 1fr; }
-      .thermal, .region { grid-template-columns: 1fr; padding: 0; }
-      .thermal-content, .region-content { padding: 60px 40px; }
-      .cabins-grid { grid-template-columns: 1fr; }
-      .reviews-grid, .addons-grid, .inclusions-grid { grid-template-columns: 1fr 1fr; }
-      .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
-      .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: span 1; grid-row: span 1; }
-      .gallery-item img { height: 240px; }
-    }
-    @media (max-width: 768px) {
-      section, .cabins, footer { padding: 60px 24px; }
-      .topbar { padding: 8px 24px; font-size: 0.65rem; }
-      nav { padding: 16px 24px; top: 0 !important; }
-      .nav-links { display: none; }
-      .hero-content { padding: 0 24px 64px; }
-      .reviews-grid, .inclusions-grid, .addons-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .nl-row { grid-template-columns: 1fr; }
-      .cabins-header, .addons-header, .gallery-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-    }
-  </style>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
 </head>
 <body>
 
@@ -256,6 +27,7 @@
     <li><a href="#thermal">Expérience Thermale</a></li>
     <li><a href="#addons">Rehaussez</a></li>
     <li><a href="#region">Région</a></li>
+    <li><a href="#avis">Avis</a></li>
     <li><a href="#contact">À propos</a></li>
     <li><a href="https://reservation.la-cime.ca/fr" class="nav-cta">Réserver</a></li>
   </ul>
@@ -263,7 +35,17 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-media" aria-hidden="true">
+    <iframe
+      src="https://www.youtube.com/embed/4eXHW4aVHmU?autoplay=1&mute=1&controls=0&loop=1&playlist=4eXHW4aVHmU&modestbranding=1&rel=0&playsinline=1"
+      title="La Cime hero video background"
+      frameborder="0"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      referrerpolicy="strict-origin-when-cross-origin"
+      tabindex="-1">
+    </iframe>
+  </div>
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">Sainte-Béatrix, Lanaudière</div>
     <h1 class="hero-title">Station thermale<br><em>en haute nature</em></h1>
@@ -284,12 +66,12 @@
 <section class="intro reveal">
   <div class="intro-visual">
     <img class="intro-img" src="https://la-cime.ca/wp-content/uploads/2024/07/DSC03580-2.jpg" alt="La Cime intérieur" />
-    <div class="intro-badge"><strong>As seen</strong>in Forbes</div>
+    <a class="intro-badge" href="https://www.forbes.fr/brandvoice/la-cime-quand-le-luxe-intime-rencontre-lexcellence-environnementale-au-quebec/" target="_blank" rel="noopener noreferrer"><strong>Vu dans</strong>Forbes</a>
   </div>
   <div>
     <div class="section-label">Notre vision</div>
     <h2 class="section-title">Architecture innovante,<br><em>nature immersive</em></h2>
-    <p class="section-body">La Cime est une entreprise d'hébergement expérientielle haut de gamme qui allie architecture innovante, expérience thermale privée et services exclusifs dans un environnement minimal et réfléchi.<br /><br />Idéalement situé sur un flanc de montagne laurentien, chaque séjour offre une vue panoramique sur la montagne et la rivière, à plusieurs mètres du sol.</p>
+    <p class="section-body">La Cime est une entreprise d’hébergement expérientielle haut de gamme qui allie architecture innovante, expérience thermale privée et services exclusifs dans un environnement minimal et réfléchi.<br /><br />Idéalement située sur un flanc de montagne laurentien, chaque station thermale offre à ses voyageurs une vue panoramique sur la montagne et la rivière.<br /><br />Nichées à plusieurs mètres du sol, elles offrent toutes les commodités d’une suite d’hôtel pour assurer une expérience d’hébergement confortable et luxueuse.<br /><br />Que ce soit pour une escapade romantique, un anniversaire ou une célébration spéciale, La Cime vous invite à vous ressourcer à la cime des arbres tout en savourant des instants de pure détente.</p>
     <div class="stats-row">
       <div><div class="stat-num">1h</div><div class="stat-label">de Montréal</div></div>
       <div><div class="stat-num">2</div><div class="stat-label">Stations thermales</div></div>
@@ -360,29 +142,29 @@
   <p class="section-body">Chaque détail est pensé pour vous offrir une expérience complète, tout en minimisant vos préparatifs.</p>
   <div class="inclusions-grid">
     <div class="incl-card"><span class="incl-icon">🛏️</span><div class="incl-title">Literie &amp; peignoirs moelleux</div><p class="incl-desc">Literie, serviettes et deux peignoirs 100 % québécois pour un confort digne des plus belles suites.</p></div>
-    <div class="incl-card"><span class="incl-icon">🫙</span><div class="incl-title">Panier gourmand d'accueil</div><p class="incl-desc">Café artisanal, confiture de poires et beurre d'érable biologique — des producteurs locaux d'exception.</p></div>
+    <div class="incl-card"><span class="incl-icon">☕</span><div class="incl-title">Panier gourmand d'accueil</div><p class="incl-desc">Café artisanal, confiture de poires et beurre d'érable biologique — des producteurs locaux d'exception.</p></div>
     <div class="incl-card"><span class="incl-icon">🌿</span><div class="incl-title">Produits corporels Oneka</div><p class="incl-desc">Savon, shampoing et revitalisant naturels, fabriqués au Québec par une marque écoresponsable reconnue.</p></div>
-    <div class="incl-card"><span class="incl-icon">🫒</span><div class="incl-title">Huile d'olive &amp; vinaigre</div><p class="incl-desc">Fournis par une entreprise lanaudoise pour agrémenter vos repas en toute simplicité.</p></div>
+    <div class="incl-card"><span class="incl-icon">🍶</span><div class="incl-title">Huile d'olive &amp; vinaigre</div><p class="incl-desc">Fournis par une entreprise lanaudoise pour agrémenter vos repas en toute simplicité.</p></div>
     <div class="incl-card"><span class="incl-icon">🌲</span><div class="incl-title">Épices de la forêt</div><p class="incl-desc">Offertes par notre partenaire local, elles ajoutent une touche sauvage et parfumée à vos plats.</p></div>
-    <div class="incl-card"><span class="incl-icon">🪵</span><div class="incl-title">Bois de chauffage</div><p class="incl-desc">Un bel ajout pour une soirée sous les étoiles, sans tracas lors de votre déplacement.</p></div>
+    <div class="incl-card"><span class="incl-icon">🕯️</span><div class="incl-title">Bois de chauffage</div><p class="incl-desc">Un bel ajout pour une soirée sous les étoiles, sans tracas lors de votre déplacement.</p></div>
   </div>
 </section>
 
 <!-- ADDONS -->
 <section class="addons" id="addons">
   <div class="addons-header reveal">
-    <div>
+    <div class="addons-intro">
       <div class="section-label">Bonifications</div>
       <h2 class="section-title">Rehaussez<br><em>votre escapade</em></h2>
+      <p class="addons-lead">Des expériences sur mesure pour transformer votre séjour en souvenir inoubliable.</p>
     </div>
-    <p class="section-body" style="max-width:320px">Des expériences sur mesure pour transformer votre séjour en souvenir inoubliable.</p>
   </div>
   <div class="addons-grid reveal">
-    <div class="addon-card"><span class="addon-icon">🤲</span><div class="addon-name">Massothérapie</div><p class="addon-desc">Un massage en duo sur mesure, directement dans votre station — l'art du bien-être à la hauteur des arbres.</p><div class="addon-price">Sur réservation</div></div>
-    <div class="addon-card"><span class="addon-icon">🫕</span><div class="addon-name">Fondue chinoise</div><p class="addon-desc">Un panier complet pour préparer une fondue chinoise conviviale avec des produits de qualité artisanale.</p><div class="addon-price">En option</div></div>
-    <div class="addon-card"><span class="addon-icon">🧀</span><div class="addon-name">Plateau gourmand</div><p class="addon-desc">Charcuteries, fromages et produits fins de la région pour une soirée apéro mémorable.</p><div class="addon-price">En option</div></div>
-    <div class="addon-card"><span class="addon-icon">🍷</span><div class="addon-name">Instant Apéro</div><p class="addon-desc">Une sélection de vins naturels et de snacks raffinés pour débuter votre séjour en beauté.</p><div class="addon-price">En option</div></div>
+    <div class="addon-card"><span class="addon-icon">🤲</span><div class="addon-name">Massothérapie</div><p class="addon-desc">Soin sur mesure dans votre microchalet : notre massothérapeute se déplace sur place, en prolongement de l'expérience thermale. Modalités de réservation au bas de la page.</p><div class="addon-price">Sur réservation</div></div>
+    <div class="addon-card"><span class="addon-icon">🍲</span><div class="addon-name">Fondue chinoise du terroir</div><p class="addon-desc">Notre fondue chinoise du terroir : un panier complet pour un repas convivial, avec des produits artisanaux d'exception.</p><div class="addon-price">En option</div></div>
+    <div class="addon-card"><span class="addon-icon">🍽️</span><div class="addon-name">Plateau gourmand</div><p class="addon-desc">Pause gourmande au chalet : produits artisanaux choisis pour dîner, après-midi ou fin de soirée — à savourer sur la terrasse, près du feu ou face à la vue.</p><div class="addon-price">En option</div></div>
     <div class="addon-card"><span class="addon-icon">🍺</span><div class="addon-name">Duo de bières locales</div><p class="addon-desc">Deux bières artisanales de microbrasseries lanaudoises pour découvrir la richesse brassicole de la région.</p><div class="addon-price">En option</div></div>
+    <div class="addon-card"><span class="addon-icon">🍺</span><div class="addon-name">Duo de bières plus</div><p class="addon-desc">Deux bières artisanales de microbrasseries lanaudoises, accompagnées d'un saucisson et de chips.</p><div class="addon-price">En option</div></div>
     <div class="addon-card"><span class="addon-icon">🌅</span><div class="addon-name">Arrivée anticipée</div><p class="addon-desc">Profitez de votre station dès le matin pour maximiser chaque instant de votre escapade.</p><div class="addon-price">Selon disponibilité</div></div>
   </div>
 </section>
@@ -426,15 +208,53 @@
 </section>
 
 <!-- TESTIMONIALS -->
-<section class="testimonials">
-  <div class="testimonials-head reveal">
-    <div class="section-label">Avis clients</div>
-    <h2 class="section-title">Ce que disent<br><em style="color:var(--sage)">nos voyageurs</em></h2>
-  </div>
-  <div class="reviews-grid reveal">
-    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">« Une expérience absolument magique. Le circuit thermal privé au-dessus de la rivière est tout simplement époustouflant. »</p><div class="review-author">Sophie M.</div><div class="review-location">Montréal, QC</div></div>
-    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">« La qualité de chaque détail est remarquable — literie, produits locaux, architecture. On se sent vraiment dans un autre monde. »</p><div class="review-author">François &amp; Julie</div><div class="review-location">Québec, QC</div></div>
-    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">« Notre meilleur anniversaire. Le hammam et la cuve face à la forêt la nuit — inoubliable. On revient cet hiver. »</p><div class="review-author">Marie-Claude D.</div><div class="review-location">Ottawa, ON</div></div>
+<section class="testimonials" id="avis">
+  <div class="testimonials-wrap reveal">
+    <div class="testimonials-head">
+      <div class="section-label">Avis clients</div>
+      <h2 class="section-title">Ce que disent<br><em style="color:var(--sage)">nos voyageurs</em></h2>
+      <p class="testimonials-sub">Avis authentiques regroupés et vérifiés — vous les retrouvez en entier sur Trustindex.</p>
+    </div>
+
+    <div class="trust-summary">
+      <div class="trust-score-block">
+        <div class="trust-score" aria-label="Note moyenne 5 sur 5">5,0</div>
+        <div class="trust-score-stars" aria-hidden="true">★★★★★</div>
+        <p class="trust-score-label">Note moyenne</p>
+      </div>
+      <div class="trust-summary-body">
+        <p class="trust-count"><strong>478 avis</strong> publiés sur les plateformes partenaires</p>
+        <ul class="trust-sources" aria-label="Sources des avis">
+          <li>Google</li>
+          <li>Airbnb</li>
+          <li>Trustindex</li>
+        </ul>
+        <a class="btn-trust-cta" href="https://www.trustindex.io/reviews/la-cime.ca" target="_blank" rel="noopener noreferrer">Voir tous les avis vérifiés</a>
+      </div>
+    </div>
+
+    <div class="reviews-grid">
+      <article class="review-card">
+        <div class="review-stars" aria-hidden="true">★★★★★</div>
+        <p class="review-text">« Nous avons passé un séjour absolument magnifique dans ce chalet. Tout est pensé pour la détente&nbsp;: la vue est spectaculaire, le spa et le sauna sont parfaits pour relaxer, et le chalet est très confortable et bien équipé. »</p>
+        <div class="review-author">Joel Bouchard</div>
+        <div class="review-verified">Avis vérifié · publié sur une plateforme partenaire</div>
+      </article>
+      <article class="review-card">
+        <div class="review-stars" aria-hidden="true">★★★★★</div>
+        <p class="review-text">« Nous avons adoré notre séjour en couple. Tout était irréprochable&nbsp;: les installations sont remarquablement bien pensées, avec un souci du détail impressionnant. Le lieu offre une intimité précieuse et une vue magnifique. »</p>
+        <div class="review-author">Nancy Nakich</div>
+        <div class="review-verified">Avis vérifié · publié sur une plateforme partenaire</div>
+      </article>
+      <article class="review-card">
+        <div class="review-stars" aria-hidden="true">★★★★★</div>
+        <p class="review-text">« Une belle expérience à vivre où détente et confort sont au rendez-vous. Le chalet est magnifique, ergonomique et particulièrement bien équipé&nbsp;! Les hôtes sont proactifs et à l’écoute de vos besoins. »</p>
+        <div class="review-author">Sophie</div>
+        <div class="review-verified">Avis vérifié Trustindex</div>
+      </article>
+    </div>
+
+    <p class="trust-footnote">Les citations ci-dessus sont extraites d’avis publics. Consultez l’historique complet, les dates et les réponses de La Cime sur <a href="https://www.trustindex.io/reviews/la-cime.ca" target="_blank" rel="noopener noreferrer">Trustindex</a>.</p>
   </div>
 </section>
 
@@ -512,28 +332,6 @@
   </div>
 </footer>
 
-<script>
-  const nav = document.getElementById('mainNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-  const reveals = document.querySelectorAll('.reveal');
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        const kids = e.target.querySelectorAll('.incl-card,.addon-card,.cabin-card,.review-card,.gallery-item,.thermal-item,.region-point,.press-logo');
-        kids.forEach((el, i) => { el.style.transitionDelay = (i * 80) + 'ms'; });
-      }
-    });
-  }, { threshold: 0.08 });
-  reveals.forEach(el => obs.observe(el));
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const id = a.getAttribute('href');
-      if (id.length > 1) { e.preventDefault(); document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' }); }
-    });
-  });
-</script>
+<script src="./assets/js/main.js"></script>
 </body>
 </html>
