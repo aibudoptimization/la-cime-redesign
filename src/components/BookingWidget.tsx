@@ -3,20 +3,13 @@
 import { useMemo, useState } from "react";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import type {
+  CheckoutIntentErrorResponse,
+  CheckoutIntentResponse,
+} from "@/lib/booking/contracts";
 import type { BookingRequest, CabinId } from "@/lib/booking/types";
 
 type AvailabilityState = "idle" | "checking" | "available" | "unavailable";
-
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
-);
-
-type CheckoutIntentResponse = {
-  sessionId: string;
-  clientSecret: string;
-  amountCents: number;
-  currency: string;
-};
 
 function CheckoutForm({
   sessionId,
@@ -95,10 +88,26 @@ export default function BookingWidget() {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [checkout, setCheckout] = useState<CheckoutIntentResponse | null>(null);
+  const [checkoutPublishableKey, setCheckoutPublishableKey] = useState<string | null>(null);
+  const stripePromise = useMemo(
+    () => (checkoutPublishableKey ? loadStripe(checkoutPublishableKey) : null),
+    [checkoutPublishableKey]
+  );
 
   const canCheckAvailability = useMemo(
     () => Boolean(booking.checkIn && booking.checkOut && booking.cabinId),
     [booking.checkIn, booking.checkOut, booking.cabinId]
+  );
+  const canStartCheckout = useMemo(
+    () =>
+      availability === "available" &&
+      Boolean(
+        booking.guest.firstName.trim() &&
+          booking.guest.lastName.trim() &&
+          booking.guest.email.trim() &&
+          booking.guest.phone.trim()
+      ),
+    [availability, booking.guest]
   );
 
   const updateCabin = (cabinId: CabinId) =>
@@ -110,6 +119,7 @@ export default function BookingWidget() {
     setStatusMessage(null);
     setAvailability("checking");
     setCheckout(null);
+    setCheckoutPublishableKey(null);
 
     const query = new URLSearchParams({
       cabinId: booking.cabinId,
@@ -138,10 +148,17 @@ export default function BookingWidget() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(booking),
     });
-    const data = (await res.json()) as CheckoutIntentResponse & { error?: string };
+    const data = (await res.json()) as CheckoutIntentResponse | CheckoutIntentErrorResponse;
 
     if (!res.ok) {
-      setError(data.error || "Could not initialize checkout.");
+      setError(
+        "error" in data && data.error ? data.error : "Could not initialize checkout."
+      );
+      return;
+    }
+
+    if (!data.publishableKey) {
+      setError("Stripe publishable key missing from checkout response.");
       return;
     }
 
@@ -151,6 +168,7 @@ export default function BookingWidget() {
       amountCents: data.amountCents,
       currency: data.currency,
     });
+    setCheckoutPublishableKey(data.publishableKey);
   };
 
   return (
@@ -306,7 +324,7 @@ export default function BookingWidget() {
               type="button"
               className="btn-primary booking-button"
               onClick={startCheckout}
-              disabled={availability !== "available"}
+              disabled={!canStartCheckout}
             >
               Continue to payment
             </button>
@@ -320,15 +338,16 @@ export default function BookingWidget() {
               Amount: {(checkout.amountCents / 100).toFixed(2)}{" "}
               {checkout.currency.toUpperCase()}
             </p>
-            <Elements
-              stripe={stripePromise}
-              options={{ clientSecret: checkout.clientSecret }}
-            >
-              <CheckoutForm
-                sessionId={checkout.sessionId}
-                onConfirmed={(message) => setStatusMessage(message)}
-              />
-            </Elements>
+            {stripePromise ? (
+              <Elements stripe={stripePromise} options={{ clientSecret: checkout.clientSecret }}>
+                <CheckoutForm
+                  sessionId={checkout.sessionId}
+                  onConfirmed={(message) => setStatusMessage(message)}
+                />
+              </Elements>
+            ) : (
+              <p className="booking-error">Stripe setup is unavailable.</p>
+            )}
           </div>
         ) : null}
 

@@ -2,6 +2,7 @@ import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { BOOKING_CURRENCY } from "@/lib/booking/config";
+import type { CheckoutIntentResponse } from "@/lib/booking/contracts";
 import { checkAvailability } from "@/lib/booking/guesty";
 import { computeBookingAmountCents } from "@/lib/booking/pricing";
 import { upsertCheckoutSession } from "@/lib/booking/store";
@@ -65,13 +66,15 @@ export async function POST(request: Request) {
       createdAt: new Date().toISOString(),
     });
 
-    return NextResponse.json({
+    const responseBody: CheckoutIntentResponse = {
       sessionId,
       clientSecret: paymentIntent.client_secret,
       publishableKey: stripePublishableKey,
       amountCents: amount,
       currency: BOOKING_CURRENCY,
-    });
+    };
+
+    return NextResponse.json(responseBody);
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json({ error: message }, { status: 400 });
