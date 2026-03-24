@@ -9,6 +9,18 @@ Marketing homepage rebuilt with the **App Router** (`src/app/`), **TypeScript**,
 - `npm run start` — serve production build
 - `npm run lint` — ESLint
 
+## Environment setup
+
+This project uses local environment variables via `.env`.
+
+1. Copy `.env.example` to `.env`.
+2. Set local values in `.env`.
+3. Never commit real secrets.
+
+Notes:
+- `.env` and `.env.*` are gitignored.
+- `.env.example` is committed as a safe template with placeholders only.
+
 ## Project layout
 
 | Path | Role |
