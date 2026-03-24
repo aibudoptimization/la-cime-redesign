@@ -35,6 +35,36 @@ Notes:
 
 To refresh styles from the old path, copy `assets/css/styles.css` into `src/styles/la-cime.css` and re-apply the `var(--font-jost)` / `var(--font-cormorant)` font-family rules at the top of that file (see current `la-cime.css`).
 
+## Booking + payment prototype flow
+
+This repo now includes an on-site booking flow (no redirect) with:
+- Guesty availability + reservation creation hooks
+- Stripe Payment Element checkout
+- Server-side final availability re-check before payment intent creation
+- Webhook-based confirmation + idempotent reservation finalization
+
+### API contract (MVP)
+
+- `GET /api/booking/availability?cabinId&checkIn&checkOut`
+  - Returns `{ available: boolean }`
+- `POST /api/booking/checkout-intent`
+  - Body:
+    - `cabinId`: `"cime-02" | "station-perchee"`
+    - `checkIn`, `checkOut`: `YYYY-MM-DD`
+    - `guest`: `firstName`, `lastName`, `email`, `phone`
+    - `extras`: `earlyArrival`, `beerDuo`, `snacks` (booleans)
+  - Returns `{ sessionId, clientSecret, amountCents, currency }`
+- `GET /api/booking/checkout-status?sessionId=...`
+  - Returns session state and reservation ID when confirmed.
+- `POST /api/stripe/webhook`
+  - Handles `payment_intent.succeeded`, creates Guesty reservation once, and marks checkout confirmed.
+
+### Notes
+
+- Guesty remains the inventory/reservation system of record.
+- If Guesty credentials are not configured, local prototype fallback logic is used for availability/reservation IDs.
+- n8n is intentionally not part of the critical booking/payment path in this MVP.
+
 ## Optional: regenerate `LaCimeHome.tsx` from HTML
 
 If you edit `legacy/index.html.bak` and want to re-port:

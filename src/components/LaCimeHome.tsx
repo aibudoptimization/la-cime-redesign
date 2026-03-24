@@ -1,3 +1,5 @@
+import BookingWidget from "@/components/BookingWidget";
+
 export default function LaCimeHome() {
   return (
     <>
@@ -19,7 +21,7 @@ export default function LaCimeHome() {
     <li><a href="#region">Région</a></li>
     <li><a href="#avis">Avis</a></li>
     <li><a href="#contact">À propos</a></li>
-    <li><a href="https://reservation.la-cime.ca/fr" className="nav-cta">Réserver</a></li>
+    <li><a href="#booking" className="nav-cta">Réserver</a></li>
   </ul>
 </nav>
 
@@ -40,7 +42,7 @@ export default function LaCimeHome() {
     <h1 className="hero-title">Station thermale<br /><em>en haute nature</em></h1>
     <p className="hero-sub">Une expérience d'hébergement exclusive nichée à la cime des arbres, surplombant la rivière laurentienne.</p>
     <div className="hero-actions">
-      <a href="https://reservation.la-cime.ca/fr" className="btn-primary">Réserver maintenant</a>
+      <a href="#booking" className="btn-primary">Réserver maintenant</a>
       <a href="#minichalets" className="btn-outline">Découvrir les minichalets</a>
     </div>
   </div>
@@ -48,8 +50,10 @@ export default function LaCimeHome() {
 
 <div className="promo-banner">
   🌲 Dernière minute — Station Perchée, 2 nuits avant le 31 mars. Jusqu'à 15 % de rabais.
-  <a href="https://reservation.la-cime.ca/fr">Réservez maintenant →</a>
+  <a href="#booking">Réservez maintenant →</a>
 </div>
+
+<BookingWidget />
 
 
 <section className="intro reveal">
